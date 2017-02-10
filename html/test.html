@@ -32,18 +32,18 @@
       sine set_wave
       resonance now *
       10 *
-      1.002 *
+      1.001 *
       wave
-      5 / *
-      1 - set_shades
+      0 set_shades
       vis
     `;
 
     var program2_src = `
       resonance now *
       1.002 *
-      10 *
+      5 *
       image
+      1 / *
     `;
 
     var program1 = (new JasCompiler).compile(program1_src);
@@ -81,7 +81,7 @@
       renderer.fullAlpha();
 
       tick_count += 1;
-      //requestAnimationFrame(animate);
+      requestAnimationFrame(animate);
     }
 
     </script>

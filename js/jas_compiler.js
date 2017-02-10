@@ -1,7 +1,7 @@
 class JasCompiler {
   constructor() {
     this.keywordEncodings = {
-      zero: -0.001, "0": -0.001,
+      zero: 0.,
       wave: -0.1,
       vis: -0.15, viz: -0.15, visualize: -0.15,
       pixel: -0.2, image: -0.2,
@@ -49,9 +49,6 @@ class JasCompiler {
     if(token in this.keywordEncodings) {
       return this.keywordEncodings[token];
     } else {
-      if( number == 0 ) {
-        return this.keywordEncodings["0"];
-      }
       return number;
     }
   }

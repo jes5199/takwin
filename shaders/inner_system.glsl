@@ -78,6 +78,16 @@ void init() {
   tick_length = frame_size / sample_rate;
 }
 
+// Helper functions
+
+float zeroize(float n) {
+  return (n * 2.0) - 1.0;
+}
+
+float halfize(float n) {
+  return (n + 1.0) / 2.0;
+}
+
 // Waveform functions. Assumed to have a period of 1.0, and a range of -1.0..1.0
 
 float sinewave(float x) {
@@ -104,20 +114,24 @@ float trianglewave(float x) {
 // Visualization functions.
 
 float sing(float val, float height) {
-  float n = (val + 1.0) / 2.0;
+  if( sing_shade_count == 0 ){
+    return sign(val);
+  } else {
+    float n = halfize(val);
 
-  float fshades = abs(float(sing_shade_count));
-  float shade = n * fshades;
-  float major_shade = floor(shade + 0.5);
-  float shade_error = major_shade - shade;
-  float sing = major_shade / fshades;
-  if(shade_error > 0.0 && height < shade_error) {
-    sing -= (1.0 / fshades) * sign(shade_error);
-  } else if (shade_error < 0.0 && 1.0-height < -shade_error) {
-    sing -= (1.0 / fshades) * sign(shade_error);
+    float fshades = abs(float(sing_shade_count));
+    float shade = n * fshades;
+    float major_shade = floor(shade + 0.5);
+    float shade_error = major_shade - shade;
+    float sing = major_shade / fshades;
+    if(shade_error > 0.0 && height < shade_error) {
+      sing -= (1.0 / fshades) * sign(shade_error);
+    } else if (shade_error < 0.0 && 1.0-height < -shade_error) {
+      sing -= (1.0 / fshades) * sign(shade_error);
+    }
+
+    return zeroize(sing) * sign(float(sing_shade_count));
   }
-
-  return (sing * 2.0 - 1.0) * sign(float(sing_shade_count));
 }
 
 float visualize(float x, float y) {
@@ -147,7 +161,7 @@ vec4 sampleFromImage(float x, float y) {
 }
 
 float rgb2grey(vec3 c) {
-    return (c.r + c.g + c.b) / 3.0;
+   return (c.r + c.g + c.b) / 3.0;
 }
 
 float grayScale(vec4 pixel) {
@@ -156,10 +170,10 @@ float grayScale(vec4 pixel) {
 
 float pixel(float x, float y) {
   vec4 pixel = sampleFromImage(mod(x, 1.0), mod(-y, 1.0));
-  return grayScale(pixel);
+  return zeroize(grayScale(pixel));
 }
 
-// Helper functions
+// Value functions
 
 float pos() {
   if(is_vertical) {
@@ -295,7 +309,7 @@ void run() {
       push(val);
     }
   }
-  color = (pop() + 1.0) / 2.0;
+  color = halfize(pop());
 }
 
 void done() {
