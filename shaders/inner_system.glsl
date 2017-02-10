@@ -106,7 +106,7 @@ float trianglewave(float x) {
 float sing(float val, float height) {
   float n = (val + 1.0) / 2.0;
 
-  float fshades = float(sing_shade_count);
+  float fshades = abs(float(sing_shade_count));
   float shade = n * fshades;
   float major_shade = floor(shade + 0.5);
   float shade_error = major_shade - shade;
@@ -117,7 +117,7 @@ float sing(float val, float height) {
     sing -= (1.0 / fshades) * sign(shade_error);
   }
 
-  return sing * 2.0 - 1.0;
+  return (sing * 2.0 - 1.0) * sign(float(sing_shade_count));
 }
 
 float visualize(float x, float y) {
@@ -210,11 +210,9 @@ float pop() {
 void run() {
   for(int i = 0; i < program_size; i++) {
     float instruction = program[i];
-    if(instruction > 0.) {
+    if(instruction >= 0.) {
       // number literal
       push(instruction);
-    } else if (instruction > -0.1 && instruction < 0.0) {
-      push(0.0);
     } else if( ceil(instruction) == 0. ) {
       // waveform functions
       if(instruction == o_wave) {

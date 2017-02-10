@@ -10,31 +10,44 @@
     <script>
     'use strict';
 
-    var settings = {
+    var settings1 = {
       sample_rate: 44100,
       frame_size: 1024,
       is_vertical: false,
       width: 1024, height: 112, x: 0, y:0,
-      mask: [true, true, true, true]
+      mask: [false, true, true, false]
+    };
+
+    var settings2 = {
+      sample_rate: 44100,
+      frame_size: 1024,
+      is_vertical: false,
+      width: 1024, height: 112, x: 0, y:50,
+      mask: [true, false, true, false]
     };
 
     var tick_count = 0;
 
-    var program_src = `
+    var program1_src = `
       sine set_wave
       resonance now *
       10 *
       1.002 *
       wave
       5 / *
+      1 - set_shades
+      vis
+    `;
 
-      1 set_shades
+    var program2_src = `
       resonance now *
       1.002 *
+      10 *
       image
     `;
-    var program = (new JasCompiler).compile(program_src);
-    console.log(program);
+
+    var program1 = (new JasCompiler).compile(program1_src);
+    var program2 = (new JasCompiler).compile(program2_src);
 
     var renderer;
 
@@ -63,11 +76,12 @@
       }
       fps += 1;
 
-      renderer.render(settings, program, tick_count);
-      //renderer.fullAlpha();
+      renderer.render(settings1, program1, tick_count);
+      renderer.render(settings2, program2, tick_count);
+      renderer.fullAlpha();
 
       tick_count += 1;
-      requestAnimationFrame(animate);
+      //requestAnimationFrame(animate);
     }
 
     </script>

@@ -2,6 +2,8 @@
 
 // TODO: library style
 
+let program_size = 128;
+
 class Renderer {
   constructor(canvas) {
     this.canvas = canvas;
@@ -154,11 +156,14 @@ class Renderer {
     this.gl.uniform1fv(loc, vals);
   }
 
-  setUniforms(settings, program, tick_count) {
+  setUniforms(settings, jas_program, tick_count) {
     this.setUniformInt("is_vertical", settings.is_vertical);
     this.setUniformFloat("sample_rate", settings.sample_rate);
     this.setUniformFloat("frame_size", settings.frame_size);
-    this.setUniformFloatArray("program", program);
+
+    this.setUniformFloatArray("program", (new Array(program_size)).fill(NaN));
+    this.setUniformFloatArray("program", jas_program);
+
     this.setUniformInt("tick_count", tick_count);
   }
 
@@ -196,7 +201,7 @@ class Renderer {
 
   fullAlpha() {
     this.gl.colorMask.apply(this.gl, [false, false, false, true]);
-    this.gl.clearColor(0, 0, 0, 1);
+    this.gl.clearColor(1, 1, 1, 1);
     this.gl.clear(this.gl.COLOR_BUFFER_BIT);
   }
 
