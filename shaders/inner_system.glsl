@@ -15,6 +15,13 @@ float tick_length; //sec
 uniform float program[program_size];
 uniform int tick_count;
 
+uniform sampler2D image0;
+uniform sampler2D image1;
+uniform sampler2D image2;
+uniform sampler2D image3;
+uniform sampler2D image4;
+uniform sampler2D image5;
+
 varying vec2 position;
 
 float stack[stack_size];
@@ -120,6 +127,37 @@ float visualize(float x, float y) {
   return 0.5;
 }
 
+vec4 sampleFromImage(float x, float y) {
+  vec2 sample_position = vec2( mod(x, 1.0), mod(y, 1.0) );
+  vec4 sample;
+  if(image == 0) {
+    sample = texture2D(image0, sample_position);
+  } else if(image == 1) {
+    sample = texture2D(image1, sample_position);
+  } else if(image == 2) {
+    sample = texture2D(image2, sample_position);
+  } else if(image == 3) {
+    sample = texture2D(image3, sample_position);
+  } else if(image == 4) {
+    sample = texture2D(image4, sample_position);
+  } else if(image == 5) {
+    sample = texture2D(image5, sample_position);
+  }
+  return sample;
+}
+
+float rgb2grey(vec3 c) {
+    return (c.r + c.g + c.b) / 3.0;
+}
+
+float grayScale(vec4 pixel) {
+  return rgb2grey(pixel.rgb) * pixel.a + 0.5 * (1.0 - pixel.a);
+}
+
+float pixel(float x, float y) {
+  vec4 pixel = sampleFromImage(mod(x, 1.0), mod(-y, 1.0));
+  return grayScale(pixel);
+}
 
 // Helper functions
 
@@ -203,7 +241,7 @@ void run() {
         // TODO: sample image at my latitude
         float x = pop();
         float y = latitude();
-        push(1.0);
+        push(pixel(x, y));
       } else if(instruction == o_sample) {
         // TODO: sample image vertical band
         float x = pop();

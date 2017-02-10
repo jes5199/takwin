@@ -18,6 +18,40 @@ class Renderer {
 
     this.getVertexShader();
     this.getFragmentShader();
+
+    this.displayTextures = [
+      this.gl.TEXTURE0,
+      this.gl.TEXTURE1,
+      this.gl.TEXTURE2,
+      this.gl.TEXTURE3,
+      this.gl.TEXTURE4,
+      this.gl.TEXTURE5,
+    ];
+    for(var i = 0; i < this.displayTextures.length; i++) {
+      var img = new Image(8,8);
+      img.src = "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7";
+
+      this.initDisplayTexture(this.displayTextures[i]);
+      this.setImage(i, img);
+    }
+  }
+
+  initDisplayTexture(texture) {
+    var gl = this.gl;
+    var t = gl.createTexture();
+    gl.activeTexture(texture);
+    gl.bindTexture(gl.TEXTURE_2D, t);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+  }
+
+  setImageUniforms() {
+    for(var i = 0; i < this.displayTextures.length; i++) {
+      var imageLocation = this.gl.getUniformLocation(this.program(), "image" + i);
+      this.gl.uniform1i(imageLocation, i);
+    }
   }
 
   checkReady() {
@@ -56,6 +90,7 @@ class Renderer {
   }
 
   doReady() {
+    this.setImageUniforms();
     while(this.readyCallbacks.length) {
       this.readyCallbacks.pop()();
     }
@@ -67,6 +102,13 @@ class Renderer {
     } else {
       this.readyCallbacks.push(f);
     }
+  }
+
+  setImage(n, image) {
+    console.log("setting image " + n);
+    let gl = this.gl;
+    gl.activeTexture(this.displayTextures[n]);
+    gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, image);
   }
 
   vertex_shader() {
@@ -82,15 +124,18 @@ class Renderer {
   }
 
   program() {
-    if(this._program) {return this._program;}
+    if(this._program) {
+      this.gl.useProgram(this._program);
+      return this._program;
+    }
     this._program = build_program(this.gl, this.vertex_shader(), this.fragment_shader());
+    this.gl.useProgram(this._program);
     assign_positions(this.gl, this._program, "position3D", this.square_vertex_triangles());
     return this._program;
   }
 
   getUniformLocation(name) {
     let program = this.program();
-    this.gl.useProgram(program);
     return this.gl.getUniformLocation(program, name);
   }
 

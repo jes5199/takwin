@@ -41,7 +41,7 @@ class JasCompiler {
   }
 
   tokenize(text) {
-    return text.split(/ +/);
+    return text.split(/\s+/);
   }
 
   encode(token) {

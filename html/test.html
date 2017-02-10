@@ -20,7 +20,19 @@
 
     var tick_count = 0;
 
-    var program_src = "sine set_wave resonance now 10 1.002 * * * wave 5 / * vis";
+    var program_src = `
+      sine set_wave
+      resonance now *
+      10 *
+      1.002 *
+      wave
+      5 / *
+
+      1 set_shades
+      resonance now *
+      1.002 *
+      image
+    `;
     var program = (new JasCompiler).compile(program_src);
     console.log(program);
 
@@ -28,6 +40,12 @@
 
     $( document ).ready(function() {
       renderer = new Renderer($("canvas")[0]);
+      var image = new Image();
+      image.onload = function() {
+        console.log("got lion?");
+        renderer.setImage(0, image);
+      }
+      image.src = "/images/test/lion.webp";
 
       renderer.whenReady(function(){
         animate();
