@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <script src="/vendor/jquery-3.1.1.min.js"></script>
+    <script src="/js/util.js"></script>
+    <script src="/js/util.js"></script>
+    <script src="/js/renderer.js"></script>
+    <script src="/js/jas_compiler.js"></script>
+    <script>
+    'use strict';
+
+    var settings = {
+      sample_rate: 44100,
+      frame_size: 1024,
+      is_vertical: false,
+      width: 1024, height: 112, x: 0, y:0,
+      mask: [true, true, true, true]
+    };
+
+    var tick_count = 0;
+
+    var program_src = "sine set_wave resonance now 10 1.002 * * * wave 5 / * vis";
+    var program = (new JasCompiler).compile(program_src);
+    console.log(program);
+
+    var renderer;
+
+    $( document ).ready(function() {
+      renderer = new Renderer($("canvas")[0]);
+
+      renderer.whenReady(function(){
+        animate();
+      });
+    });
+
+    var fps = 0;
+    var lastTime = 0;
+    function animate() {
+      var now = Math.floor(Date.now() / 1000);
+      if(now > lastTime) {
+        console.log(fps);
+        fps = 0;
+        lastTime = now;
+      }
+      fps += 1;
+
+      renderer.render(settings, program, tick_count);
+      //renderer.fullAlpha();
+
+      tick_count += 1;
+      requestAnimationFrame(animate);
+    }
+
+    </script>
+  </head>
+  <body style="background-color:black">
+  <canvas width="1024" height="512"></canvas>
+  </body>
+</html>
