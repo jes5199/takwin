@@ -47,6 +47,9 @@ const float o_neg = -0.5;
 const float o_flip = -0.55;
 const float o_inv = -0.6;
 const float o_dup = -0.7;
+const float o_swap = -0.77;
+const float o_over = -0.777;
+const float o_drop = -0.707;
 
 const float l_now = -1.0;
 const float l_tick_length = -1.1;
@@ -273,6 +276,19 @@ void run() {
         float x = pop();
         push(x);
         push(x);
+      } else if(instruction == o_swap) {
+        float x = pop();
+        float y = pop();
+        push(x);
+        push(y);
+      } else if(instruction == o_over) {
+        float x = pop();
+        float y = pop();
+        push(y);
+        push(x);
+        push(y);
+      } else if(instruction == o_drop) {
+        pop();
       }
     } else if( ceil(instruction) == -1. ) {
       // other literals and parameters
