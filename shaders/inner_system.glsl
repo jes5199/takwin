@@ -46,6 +46,7 @@ const float o_times = -0.4; // I almost called this o_ring
 const float o_neg = -0.5;
 const float o_flip = -0.55;
 const float o_inv = -0.6;
+const float o_dup = -0.7;
 
 const float l_now = -1.0;
 const float l_tick_length = -1.1;
@@ -268,6 +269,10 @@ void run() {
         push(1.0 - pop());
       } else if(instruction == o_inv) {
         push(1.0 / pop());
+      } else if(instruction == o_dup) {
+        float x = pop();
+        push(x);
+        push(x);
       }
     } else if( ceil(instruction) == -1. ) {
       // other literals and parameters

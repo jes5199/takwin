@@ -11,6 +11,7 @@ class JasCompiler {
       neg: -0.5, "-": -0.5,
       flip: -0.55, "1-" : -0.55,
       inv: -0.6, "/": -0.6, "1/": -0.6,
+      dup: -0.7,
 
       now: -1.0,
       tick_length: -1.1,
