@@ -52,3 +52,39 @@ function assign_positions(gl, program, attribute, positions) {
           positionAttributeLocation, 2, gl.FLOAT, false, 0, 0)
 }
 
+function make_texture(gl, texture_slot, zoom) {
+  var texture = gl.createTexture();
+  gl.activeTexture(texture_slot);
+  gl.bindTexture(gl.TEXTURE_2D, texture);
+
+  if(!zoom) {
+    zoom = gl.NEAREST;
+  } else if(zoom == "linear") {
+    zoom = gl.LINEAR;
+  }
+
+  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
+  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, zoom);
+  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, zoom);
+}
+
+function make_texture_surface(gl, texture_slot, width, height, floating_point) {
+  gl.activeTexture(texture_slot);
+
+  var pixel_type = floating_point ? gl.FLOAT : gl.UNSIGNED_BYTE;
+
+  gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, width, height, 0, gl.RGBA, pixel_type, image);
+
+  return texture;
+}
+
+function make_framebuffer(gl, texture_slot, width, height, floating_point, image, zoom) {
+  var texture = make_texture(gl, texture_slot, width, height, floating_point, image, zoom);
+
+  var fbo = gl.createFramebuffer();
+  gl.bindFramebuffer(gl.FRAMEBUFFER, fbo);
+  gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.COLOR_ATTACHMENT0, gl.TEXTURE_2D, texture, 0);
+
+  return fbo;
+}

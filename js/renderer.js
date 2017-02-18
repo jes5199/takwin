@@ -5,7 +5,7 @@
 let program_size = 128;
 
 class Renderer {
-  constructor(canvas) {
+  constructor(canvas, render_to_texture) {
     this.canvas = canvas;
     this.gl = get_gl_context(canvas);
 
@@ -21,7 +21,7 @@ class Renderer {
     this.getVertexShader();
     this.getFragmentShader();
 
-    this.displayTextures = [
+    this.imageTextures = [
       this.gl.TEXTURE0,
       this.gl.TEXTURE1,
       this.gl.TEXTURE2,
@@ -29,28 +29,30 @@ class Renderer {
       this.gl.TEXTURE4,
       this.gl.TEXTURE5,
     ];
-    for(var i = 0; i < this.displayTextures.length; i++) {
+    for(var i = 0; i < this.imageTextures.length; i++) {
       var img = new Image(8,8);
       img.src = "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7";
 
-      this.initDisplayTexture(this.displayTextures[i]);
+      this.initImageTexture(this.imageTextures[i]);
       this.setImage(i, img);
+    }
+
+    if(render_to_texture) {
+      this.targetTexture = this.gl.TEXTURE6;
+      this.initTargetTexture();
     }
   }
 
-  initDisplayTexture(texture) {
-    var gl = this.gl;
-    var t = gl.createTexture();
-    gl.activeTexture(texture);
-    gl.bindTexture(gl.TEXTURE_2D, t);
-    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
-    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
-    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
-    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+  initImageTexture(texture) {
+    make_texture(this.gl, texture, "linear");
+  }
+
+  initTargetTexture() {
+    make_texture(this.gl, this.targetTexture, "nearest");
   }
 
   setImageUniforms() {
-    for(var i = 0; i < this.displayTextures.length; i++) {
+    for(var i = 0; i < this.imageTextures.length; i++) {
       var imageLocation = this.gl.getUniformLocation(this.program(), "image" + i);
       this.gl.uniform1i(imageLocation, i);
     }
@@ -109,7 +111,7 @@ class Renderer {
   setImage(n, image) {
     console.log("setting image " + n);
     let gl = this.gl;
-    gl.activeTexture(this.displayTextures[n]);
+    gl.activeTexture(this.imageTextures[n]);
     gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, image);
   }
 
