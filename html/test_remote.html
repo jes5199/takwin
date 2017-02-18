@@ -1,0 +1,17 @@
+<html>
+<head>
+  <script src="/vendor/jquery-3.1.1.min.js"></script>
+  <script>
+  $(document).ready(function() {
+    $("textarea").val(localStorage.takwin_data_test);
+    $("textarea").change(function() {
+      console.log("sending");
+      localStorage.setItem("takwin_data_test", $("textarea").val());
+    });
+  });
+  </script>
+</head>
+<body>
+  <textarea></textarea>
+</html>
+</body>

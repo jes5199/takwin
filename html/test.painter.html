@@ -4,10 +4,10 @@
     <meta charset="UTF-8" />
     <script src="/vendor/jquery-3.1.1.min.js"></script>
     <script src="/js/util.js"></script>
+    <script src="/js/util.js"></script>
     <script src="/js/renderer.js"></script>
     <script src="/js/jas_compiler.js"></script>
     <script src="/js/painter.js"></script>
-    <script src="/js/receiver.js"></script>
     <script>
     'use strict';
 
@@ -48,20 +48,19 @@
         },
       ],
     }
-    localStorage.setItem("takwin_data_test", JSON.stringify(paintData, null, "  "));
 
-    var receiver;
+    var painter;
 
     $( document ).ready(function() {
-      receiver = new Receiver("test", $("canvas")[0], "horizontal", 1024, 512);
+      painter = new Painter($("canvas")[0], "horizontal", 1024, 512);
       var image = new Image();
       image.onload = function() {
         console.log("got lion?");
-        receiver.setImage(0, image);
+        painter.setImage(0, image);
       }
       image.src = "/images/test/lion.webp";
 
-      receiver.whenReady(function(){
+      painter.whenReady(function(){
         animate();
       });
     });
@@ -77,8 +76,8 @@
       }
       fps += 1;
 
-      receiver.paint(tick_count);
-      receiver.painter.renderer.fullAlpha();
+      painter.paint(paintData, tick_count);
+      painter.renderer.fullAlpha();
 
       tick_count += 1;
       requestAnimationFrame(animate);

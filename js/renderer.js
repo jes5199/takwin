@@ -176,11 +176,7 @@ class Renderer {
   }
 
   setColorMask(mask) {
-    if(!mask) {
-      this.gl.colorMask([true, true, true, true]);
-    } else {
-      this.gl.colorMask.apply(this.gl, mask);
-    }
+    this.gl.colorMask.apply(this.gl, mask);
   }
 
   draw() {
