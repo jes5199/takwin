@@ -72,7 +72,7 @@ class Renderer {
   getVertexShader() {
     var renderer = this;
     $.get({
-      url: "/shaders/flat_rectangle.glsl",
+      url: "/takwin/shaders/flat_rectangle.glsl",
       cache: false
     }, function(data) {
       console.log("got vertex");
@@ -84,7 +84,7 @@ class Renderer {
   getFragmentShader() {
     var renderer = this;
     $.get({
-      url: "/shaders/inner_system.glsl",
+      url: "/takwin/shaders/inner_system.glsl",
       cache: false
     }, function(data) {
       console.log("got fragment");
