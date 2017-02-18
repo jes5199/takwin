@@ -1,6 +1,6 @@
 class Receiver {
-  constructor(storageKey, canvas, orientation, width, height) {
-    this.painter = new Painter(canvas, orientation, width, height);
+  constructor(storageKey, canvas, orientation, width, height, render_to_texture) {
+    this.painter = new Painter(canvas, orientation, width, height, render_to_texture);
     this.storageKey = storageKey;
 
     this.load();

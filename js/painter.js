@@ -1,14 +1,14 @@
 'use strict';
 
 class Painter {
-  constructor(canvas, orientation, width, height) {
+  constructor(canvas, orientation, width, height, render_to_texture) {
     this.canvas = canvas;
     this.orientation = orientation;
     // TODO: default to canvas width/height
     this.width = width;
     this.height = height;
 
-    this.renderer = new Renderer(canvas);
+    this.renderer = new Renderer(canvas, render_to_texture);
     this.compiler = new JasCompiler();
   }
 
