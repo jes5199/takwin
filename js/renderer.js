@@ -38,13 +38,14 @@ class Renderer extends GLProgrammer {
     return "/takwin/shaders/inner_system.glsl";
   }
 
-  getCanvas() {
-    return this.canvas;
-  }
-
   getHeight() {
     return this.height;
   }
+
+  getWidth() {
+    return this.width;
+  }
+
 
   output_texture_number() {
     if(this.targetTexture) {
@@ -60,7 +61,6 @@ class Renderer extends GLProgrammer {
     var texture = make_texture(this.gl, this.targetTexture, "nearest");
     make_texture_surface(this.gl, this.targetTexture, this.width, this.height, false);
     this.fbo = make_framebuffer(this.gl, texture);
-    this.setFBO(this.fbo);
   }
 
   setImageUniforms() {
@@ -89,6 +89,7 @@ class Renderer extends GLProgrammer {
 
   setTargetFBO() {
     if(this.targetTexture) {
+      this.setFBO(this.fbo);
     } else {
       this.setFBO(null);
     }
@@ -107,6 +108,7 @@ class Renderer extends GLProgrammer {
   }
 
   clear() {
+    this.setTargetFBO();
     this.setColorMask([true, true, true, true]);
     this.gl.clearColor(0.5, 0.5, 0.5, 0.5);
     this.gl.clear(this.gl.COLOR_BUFFER_BIT);

@@ -35,7 +35,5 @@ class Viewer extends GLProgrammer {
 
     this.setColorMask([true, true, true, false]);
     this.draw();
-    //this.fullAlpha();
-    //this.gl.clearColor(0.0, 0.0, 0.0, 1);
   }
 }

@@ -73,6 +73,10 @@ function make_texture(gl, texture_slot, zoom) {
 function make_texture_surface(gl, texture_slot, width, height, floating_point, image) {
   gl.activeTexture(texture_slot);
 
+  if(floating_point) {
+    gl.getExtension('OES_texture_float');
+  }
+
   var pixel_type = floating_point ? gl.FLOAT : gl.UNSIGNED_BYTE;
   image = image || null;
 

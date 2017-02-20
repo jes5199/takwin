@@ -20,6 +20,10 @@ class Painter {
     return this.height;
   }
 
+  getWidth() {
+    return this.width;
+  }
+
   output_texture_number() {
     return this.renderer.output_texture_number();
   }

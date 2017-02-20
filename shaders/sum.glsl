@@ -9,7 +9,7 @@ void main() {
   vec4 sample;
 
   for(int i = 0; i < $HEIGHT; i++) {
-    sample = texture2D(image, vec2(position.x, float(i) / float(height)));
+    sample = texture2D(image, vec2(position.x, float(i) / $HEIGHT.0));
     acc += int(sample.r * 255.0);
     acc += int(sample.g * 255.0);
     acc += int(sample.b * 255.0);

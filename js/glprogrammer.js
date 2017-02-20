@@ -13,6 +13,10 @@ class GLProgrammer {
     this.getFragmentShader();
   }
 
+  getCanvas() {
+    return this.canvas;
+  }
+
   fragmentShaderSource() {
     return "/takwin/shaders/inner_system.glsl";
   }
@@ -150,6 +154,4 @@ class GLProgrammer {
     this.gl.clearColor(0.5, 0.5, 0.5, 1);
     this.gl.clear(this.gl.COLOR_BUFFER_BIT);
   }
-
-
 }

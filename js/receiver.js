@@ -16,6 +16,10 @@ class Receiver {
     return this.painter.getHeight();
   }
 
+  getWidth() {
+    return this.painter.getWidth();
+  }
+
   output_texture_number() {
     return this.painter.output_texture_number();
   }
