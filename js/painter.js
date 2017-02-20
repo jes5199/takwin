@@ -8,8 +8,20 @@ class Painter {
     this.width = width;
     this.height = height;
 
-    this.renderer = new Renderer(canvas, render_to_texture);
+    this.renderer = new Renderer(canvas, render_to_texture, width, height);
     this.compiler = new JasCompiler();
+  }
+
+  getCanvas() {
+    return this.renderer.getCanvas();
+  }
+
+  getHeight() {
+    return this.height;
+  }
+
+  output_texture_number() {
+    return this.renderer.output_texture_number();
   }
 
   setImage(n, img) {
@@ -48,6 +60,8 @@ class Painter {
   }
 
   paint(data, tick_count) {
+    this.renderer.clear();
+
     for(var k in data.bands) {
       var band = data.bands[k];
 

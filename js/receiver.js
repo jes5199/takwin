@@ -8,9 +8,24 @@ class Receiver {
     this.subscribe();
   }
 
+  getCanvas() {
+    return this.painter.getCanvas();
+  }
+
+  getHeight() {
+    return this.painter.getHeight();
+  }
+
+  output_texture_number() {
+    return this.painter.output_texture_number();
+  }
+
   load() {
     try {
-      this.data = JSON.parse(localStorage["takwin_data_" + this.storageKey]);
+      var json = localStorage["takwin_data_" + this.storageKey];
+      if(json) {
+        this.data = JSON.parse(json);
+      }
     } catch (e) {
       console.log(e);
     }
@@ -33,5 +48,4 @@ class Receiver {
   whenReady(f) {
     this.painter.whenReady(f);
   }
-
 }
