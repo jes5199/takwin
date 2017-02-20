@@ -26,9 +26,14 @@ class Receiver {
 
   load() {
     try {
-      var json = localStorage["takwin_data_" + this.storageKey];
+      var key = "takwin_data_" + this.storageKey;
+      var json = localStorage[key];
       if(json) {
         this.data = JSON.parse(json);
+        if(! this.data['received']) {
+          this.data['received'] = true;
+          localStorage.setItem(key, JSON.stringify(this.data, null, "  "));
+        }
       }
     } catch (e) {
       console.log(e);
