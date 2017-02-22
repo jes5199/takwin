@@ -1,13 +1,15 @@
 class Viewer extends GLProgrammer {
-  constructor(main) {
-    super(main.getCanvas());
+  constructor(receiver) {
+    super(receiver.getCanvas());
 
     // if this is null, then we didn't render to texture
     // probably that's a requirement
-    this.texture_number = main.output_texture_number();
+    this.texture_number = receiver.output_texture_number();
 
-    //this.height = main.getHeight();
-    //this.width = main.getWidth();
+    this.receiver = receiver;
+
+    //this.height = receiver.getHeight();
+    //this.width = receiver.getWidth();
   }
 
   fragmentShaderSource() {
@@ -23,7 +25,7 @@ class Viewer extends GLProgrammer {
 
     this.setUniformMatrix4Float(
       "colorTransform",
-      receiver.data.colors ||
+      this.receiver.getColors() ||
       [ 1, 0, 0, 0,
         0, 1, 0, 0,
         0, 0, 1, 0,

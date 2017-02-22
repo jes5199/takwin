@@ -34,6 +34,7 @@ class Receiver {
           this.data['received'] = true;
           localStorage.setItem(key, JSON.stringify(this.data, null, "  "));
         }
+        console.log(this.data);
       }
     } catch (e) {
       console.log(e);
@@ -48,6 +49,18 @@ class Receiver {
 
   paint(tick_count) {
     this.painter.paint(this.data, tick_count);
+  }
+
+  getTickPeriod() {
+    if(this.data) {
+      return this.data.tick_period;
+    }
+  }
+
+  getColors() {
+    if(this.data) {
+      return this.data.colors;
+    }
   }
 
   setImage(n, img) {

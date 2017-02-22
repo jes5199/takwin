@@ -4,6 +4,7 @@ class AudioDriver {
     this.renderGraphics = renderGraphics;
     this.tick_period = tick_period;
     this.tick_count = tick_count || 0;
+    console.log(this.tick_count);
 
     this.animate = this.animate.bind(this);
     this.animating = false;
@@ -34,7 +35,12 @@ class AudioDriver {
     channelData.set(data);
 
     this.tick_count += 1;
-    if(this.tick_period) { this.tick_count %= this.tick_period; }
+
+    var tick_period = this.tick_period;
+    if(typeof tick_period == "function") {
+      tick_period = tick_period();
+    }
+    if(tick_period) { this.tick_count %= tick_period; }
 
     if(!this.animating) {
       setTimeout(this.animate, 0);

@@ -85,6 +85,7 @@ class Renderer extends GLProgrammer {
     this.setUniformFloatArray("program", jas_program);
 
     this.setUniformInt("tick_count", tick_count);
+    //console.log(tick_count);
   }
 
   setTargetFBO() {

@@ -72,7 +72,7 @@ class Painter {
       var settings = {};
       Object.assign(settings, this.dimensionsForBand(band));
       settings.mask = this.maskForChannel(band.channel);
-      settings.sample_rate = data.sample_rate;
+      settings.sample_rate = 44100; // TODO: pass this in from audio context or whatever
       settings.is_vertical = (this.orientation == "vertical");
       settings.frame_size = settings.is_vertical ? this.height : this.width;
 
