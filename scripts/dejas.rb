@@ -25,7 +25,7 @@ tokens.each do |token|
     y = stack.pop
     stack.push x
     stack.push y
-  when "roll"
+  when "rot"
     x = stack.pop
     y = stack.pop
     z = stack.pop

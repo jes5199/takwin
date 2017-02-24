@@ -49,7 +49,7 @@ const float o_inv = -0.6;
 const float o_dup = -0.7;
 const float o_drop = -0.71;
 const float o_swap = -0.72;
-const float o_roll = -0.73;
+const float o_rot = -0.73;
 const float o_over = -0.74;
 
 const float l_now = -1.0;
@@ -282,7 +282,7 @@ void run() {
         float y = pop();
         push(x);
         push(y);
-      } else if(instruction == o_roll) {
+      } else if(instruction == o_rot) {
         float x = pop();
         float y = pop();
         float z = pop();
