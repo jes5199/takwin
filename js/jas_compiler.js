@@ -12,9 +12,10 @@ class JasCompiler {
       flip: -0.55, "1-" : -0.55,
       inv: -0.6, "/": -0.6, "1/": -0.6,
       dup: -0.7,
-      swap: -0.77,
-      over: -0.777,
-      drop: -0.707,
+      drop: -0.71,
+      swap: -0.72,
+      roll: -0.73,
+      over: -0.74,
 
       now: -1.0,
       tick_length: -1.1,
